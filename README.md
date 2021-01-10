@@ -9,7 +9,7 @@
 
 ## Description
 
-Create a pdf outline data structure from a high level string representation of the pdf outline. [Here](https://github.com/lillallol/outline-pdf-data-structure/src/index.test.ts) are some examples.
+Create a pdf outline data structure from a high level string representation of the pdf outline. [Here](https://github.com/lillallol/outline-pdf-data-structure/blob/master/src/index.test.ts) are some examples.
 
 You can then use that data structure to "hydrate" a real pdf outline data structure like it is done in [@lillallol/outline-pdf](https://github.com/lillallol/outline-pdf).
 
@@ -25,4 +25,4 @@ This whole package was part of [@lillallol/outline-pdf](https://github.com/lilla
 
 ## License
 
-[MIT](https://github.com/lillallol/outline-pdf-data-structure/LICENSE)
+[MIT](https://github.com/lillallol/outline-pdf-data-structure/blob/master/LICENSE)
