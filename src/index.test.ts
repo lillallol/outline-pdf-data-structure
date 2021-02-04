@@ -1,4 +1,4 @@
-import { outlinePdfDataStructure } from "./index";
+import { outlinePdfDataStructure, outlinePdfDataStructureReturnType } from "./index";
 
 
 describe(outlinePdfDataStructure.name, () => {
@@ -78,7 +78,7 @@ describe(outlinePdfDataStructure.name, () => {
                     6
                 )
             ).toEqual({
-                outlineRootCount: 5,
+                outlineRootCount: 6,
                 outlineItems: [
                     {
                         Title: "Document",
@@ -86,7 +86,7 @@ describe(outlinePdfDataStructure.name, () => {
                         Next: 5,
                         First: 1,
                         Last: 4,
-                        Count: 3,
+                        Count: 4,
                         Dest: 1 - 1,
                     },
                     {
@@ -125,5 +125,74 @@ describe(outlinePdfDataStructure.name, () => {
                 ],
             });
         });
+        it("works for outline with more than one outline node for the same page",() => {
+            expect(
+                outlinePdfDataStructure(
+                    `
+                        1||Document
+                        2|-|Section 1
+                       -3|-|Section 2
+                        4|--|Subsection 1
+                        5|-|Section 3
+                        6||Summary
+                        6||Another Summary
+                    `,
+                    7
+                )
+            ).toEqual<outlinePdfDataStructureReturnType>({
+                outlineRootCount: 7,
+                outlineItems: [
+                    {
+                        Title: "Document",
+                        Parent: -1,
+                        Next: 5,
+                        First: 1,
+                        Last: 4,
+                        Count: 4,
+                        Dest: 1 - 1,
+                    },
+                    {
+                        Title: "Section 1",
+                        Parent: 0,
+                        Next: 2,
+                        Dest: 2 - 1,
+                    },
+                    {
+                        Title: "Section 2",
+                        Parent: 0,
+                        Prev: 1,
+                        Next: 4,
+                        First: 3,
+                        Last: 3,
+                        Count: -1,
+                        Dest: 3 - 1,
+                    },
+                    {
+                        Title: "Subsection 1",
+                        Parent: 2,
+                        Dest: 4 - 1,
+                    },
+                    {
+                        Title: "Section 3",
+                        Parent: 0,
+                        Prev: 2,
+                        Dest: 5 - 1,
+                    },
+                    {
+                        Title: "Summary",
+                        Parent: -1,
+                        Prev: 0,
+                        Next : 6,
+                        Dest: 6 - 1,
+                    },
+                    {
+                        Title: "Another Summary",
+                        Parent: -1,
+                        Prev: 5,
+                        Dest: 6 - 1,
+                    },
+                ],
+            });
+        })
     });
 });

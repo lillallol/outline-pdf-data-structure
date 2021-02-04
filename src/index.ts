@@ -7,31 +7,27 @@ import { getIndexOfImmediatePreviousSibling } from "./getIndexOfImmediatePreviou
 import { hasImmediatePreviousSibling } from "./hasImmediatePreviousSibling";
 import { hasImmediateNextSibling } from "./hasImmediateNextSibling";
 import { getIndexOfImmediateParent } from "./getIndexOfImmediateParentFactory";
-import { calculateCount } from "./calculateCount";
+// import { calculateCount } from "./calculateCount";
 import { printedToOutline } from "./printedToOutline";
+import { getNumberOfDescendants } from "./getNumberOfDescendants";
 
 /**
- * @description It returns all the information needed to create a real pdf data structure.
+ * @description
+ * It returns all the information needed to create a real pdf data structure.
  */
 export function outlinePdfDataStructure(
     inputOutline: string,
     totalNumberOfPages: number
-): {
-    /**
-     * @description It returns a low level programmatic representation of the outline.
-     */
-    outlineItems: outlineItem[];
-    /**
-     * @description The number of outline nodes with depth `0`.
-     * This number is needed to be added to the outline root pdf object.
-     */
-    outlineRootCount: number;
-} {
+): outlinePdfDataStructureReturnType {
     const outlineItems: outlineItem[] = [];
 
     const outline: IOutline = printedToOutline(inputOutline, totalNumberOfPages);
 
-    const outlineRootCount = calculateCount(outline, -1);
+    // const outlineRootCount =
+    outline.forEach((node, i) => {
+        node.count = getNumberOfDescendants(outline, i) * (node.collapse ? -1 : 1);
+    });
+    // calculateCount(outline, -1);
     for (let i = 0; i < outline.length; i++) {
         outlineItems[i] = {
             Title: outline[i].title,
@@ -52,31 +48,47 @@ export function outlinePdfDataStructure(
     }
     return {
         outlineItems: outlineItems,
-        outlineRootCount: outlineRootCount,
+        outlineRootCount: outline.length /* outlineRootCount */,
     };
 }
 
-type outlineItem = {
+export type outlinePdfDataStructureReturnType = {
+    /**
+     * @description
+     * It returns a low level programmatic representation of the outline.
+     */
+    outlineItems: outlineItem[];
+    // * The number of outline nodes with depth `0`.
+    // * This number is needed to be added to the outline root pdf object.
+    /**
+     * @description
+     * The total number of outline nodes.
+     */
+    outlineRootCount: number;
+};
+
+export type outlineItem = {
     /**
      * @description
      * The title that will be visible in the outline of the pdf for the context outline node.
      */
     Title: string;
     /**
-     * @description The index (of the array that contains all the outline nodes) of the parent
+     * @description
+     * The index (of the array that contains all the outline nodes) of the parent
      * outline node of the context outline node.
      * Outline nodes of depth `0` have `-1` for this value.
      */
     Parent: number;
     /**
      * @description
-     * The index (of the array that contains all the outline nodes) of the previous sibling of 
+     * The index (of the array that contains all the outline nodes) of the previous sibling of
      * the context outline node. It is `undefined` for the case there is no previous sibling.
      */
     Prev?: number;
     /**
      * @description
-     * The index (of the array that contains all the outline nodes) of the next sibling of 
+     * The index (of the array that contains all the outline nodes) of the next sibling of
      * the context outline node. It is `undefined` for the case there is no next sibling.
      */
     Next?: number;
@@ -94,8 +106,7 @@ type outlineItem = {
     Last?: number;
     /**
      * @description
-     * @todo
-     * add description
+     * Total number of outline nodes that are descendants to the context outline node.
      */
     Count?: number;
     /**
