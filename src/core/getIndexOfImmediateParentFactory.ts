@@ -1,4 +1,4 @@
-import type { IOutline } from "./types";
+import type { IOutline } from "../publicApi";
 
 /**
  * @description It returns the index of the parent of the provided outline node.

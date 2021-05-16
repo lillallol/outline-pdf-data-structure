@@ -1,4 +1,5 @@
-import { IOutline } from "./types";
+import { internalErrorMessages } from "../errorMessages";
+import type { IOutline } from "../publicApi";
 
 /**
  * @description It returns the index of the immediate previous sibling for the provided outline node,
@@ -10,12 +11,5 @@ export function getIndexOfImmediatePreviousSibling(outline: IOutline, i: number)
         if (outline[ii].depth < contextDepth) break;
         if (outline[ii].depth === contextDepth) return ii;
     }
-    throw Error(_errorMessages.thereIsNoImmediatePreviousSibling(i));
+    throw Error(internalErrorMessages.internalLibraryError);
 }
-
-export const _errorMessages = {
-    thereIsNoImmediatePreviousSibling: (i: number): string =>
-        `
-		There is no immediate previous sibling for the node with index ${i}.
-	`.trim(),
-};

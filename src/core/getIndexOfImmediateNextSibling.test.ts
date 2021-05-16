@@ -1,5 +1,6 @@
 import { printedToOutline } from "./printedToOutline";
-import { getIndexOfImmediateNextSibling, _errorMessages } from "./getIndexOfImmediateNextSibling";
+import { getIndexOfImmediateNextSibling } from "./getIndexOfImmediateNextSibling";
+import { internalErrorMessages } from "../errorMessages";
 
 describe(getIndexOfImmediateNextSibling.name, () => {
     it("returns the index of the immediate next sibling of the provided outline node", () => {
@@ -41,6 +42,6 @@ describe(getIndexOfImmediateNextSibling.name, () => {
                 ),
                 i
             )
-        ).toThrow(_errorMessages.noImmediateNextSiblingForTheGivenIndex(i));
+        ).toThrow(internalErrorMessages.internalLibraryError);
     });
 });

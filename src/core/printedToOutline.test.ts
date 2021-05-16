@@ -1,4 +1,5 @@
-import { printedToOutline, _errorMessages } from "./printedToOutline";
+import { errorMessages } from "../errorMessages";
+import { printedToOutline } from "./printedToOutline";
 
 describe(printedToOutline.name, () => {
     it("throws when empty outline is provided", () => {
@@ -9,7 +10,7 @@ describe(printedToOutline.name, () => {
 				`,
                 6
             )
-        ).toThrow(_errorMessages.emptyOutline);
+        ).toThrow(errorMessages.emptyOutline);
     });
     it("throws when the outline string representation is of not valid pattern", () => {
         expect(() =>
@@ -24,7 +25,7 @@ describe(printedToOutline.name, () => {
 				`,
                 6
             )
-        ).toThrow(_errorMessages.wrongPatternInLine("4--|Subsection 1"));
+        ).toThrow(errorMessages.wrongPatternInLine("4--|Subsection 1"));
     });
     it("throws when zero is provided as page number in outline", () => {
         const line = "0||Document";
@@ -40,7 +41,7 @@ describe(printedToOutline.name, () => {
 				`,
                 6
             )
-        ).toThrow(_errorMessages.zeroPageInOutlineIsNotAllowed(line));
+        ).toThrow(errorMessages.zeroPageInOutlineIsNotAllowed(line));
     });
     it("throws when page number provided in outline exceeds the total number of pages of the pdf", () => {
         const line = "7||Summary";
@@ -57,7 +58,7 @@ describe(printedToOutline.name, () => {
 				`,
                 max
             )
-        ).toThrow(_errorMessages.pageNumberInOutlineExceedsMaximum(line, max));
+        ).toThrow(errorMessages.pageNumberInOutlineExceedsMaximum(line, max));
     });
     it("does not throw when the outline string representation is of valid pattern", () => {
         expect(() =>
@@ -85,7 +86,7 @@ describe(printedToOutline.name, () => {
         ).not.toThrow();
     });
     it("throws when the outline starts with non zero depth", () => {
-        expect(() => printedToOutline(`1|---|Document`, 6)).toThrow(_errorMessages.depthOfOutlineHasToStartWithZero);
+        expect(() => printedToOutline(`1|---|Document`, 6)).toThrow(errorMessages.depthOfOutlineHasToStartWithZero);
     });
     it("throws for invalid depth displacement", () => {
         expect(() =>
@@ -96,7 +97,7 @@ describe(printedToOutline.name, () => {
 				`,
                 6
             )
-        ).toThrow(_errorMessages.wrongDepthDisplacement("1||Document", "2|---|Document"));
+        ).toThrow(errorMessages.wrongDepthDisplacement("1||Document", "2|---|Document"));
     });
     it("works as its name implies", () => {
         const oldLine = "-3|--|Page 3";
@@ -114,7 +115,7 @@ describe(printedToOutline.name, () => {
 				`,
                 6
             )
-        ).toThrow(_errorMessages.invalidDisplacementOfPage(oldLine, newLine));
+        ).toThrow(errorMessages.invalidDisplacementOfPage(oldLine, newLine));
     });
     it("throws when there is a collapsed node without children", () => {
         const line = "-4||my title 1";
@@ -126,7 +127,7 @@ describe(printedToOutline.name, () => {
 				`,
                 6
             )
-        ).toThrow(_errorMessages.nodeIsCollapsedWithoutChildren(line));
+        ).toThrow(errorMessages.nodeIsCollapsedWithoutChildren(line));
     });
     it("does not throw when there are no collapsed nodes without children", () => {
         expect(() =>

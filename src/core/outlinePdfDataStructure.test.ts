@@ -1,5 +1,5 @@
-import { outlinePdfDataStructure, outlinePdfDataStructureReturnType } from "./index";
-
+import { outlinePdfDataStructureReturnType } from "../publicApi";
+import { outlinePdfDataStructure } from "./outlinePdfDataStructure";
 
 describe(outlinePdfDataStructure.name, () => {
     describe("returns low level information about the provided outline", () => {
@@ -16,7 +16,7 @@ describe(outlinePdfDataStructure.name, () => {
                     `,
                     6
                 )
-            ).toEqual({
+            ).toEqual<outlinePdfDataStructureReturnType>({
                 outlineRootCount: 6,
                 outlineItems: [
                     {
@@ -77,7 +77,7 @@ describe(outlinePdfDataStructure.name, () => {
                     `,
                     6
                 )
-            ).toEqual({
+            ).toEqual<outlinePdfDataStructureReturnType>({
                 outlineRootCount: 6,
                 outlineItems: [
                     {

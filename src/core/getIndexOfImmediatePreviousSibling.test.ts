@@ -1,5 +1,6 @@
 import { printedToOutline } from "./printedToOutline";
-import { getIndexOfImmediatePreviousSibling, _errorMessages } from "./getIndexOfImmediatePreviousSibling";
+import { getIndexOfImmediatePreviousSibling } from "./getIndexOfImmediatePreviousSibling";
+import { internalErrorMessages } from "../errorMessages";
 
 describe(getIndexOfImmediatePreviousSibling.name, () => {
     it("works as described by its name", () => {
@@ -41,6 +42,6 @@ describe(getIndexOfImmediatePreviousSibling.name, () => {
                 ),
                 i
             )
-        ).toThrow(_errorMessages.thereIsNoImmediatePreviousSibling(i));
+        ).toThrow(internalErrorMessages.internalLibraryError);
     });
 });

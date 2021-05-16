@@ -1,5 +1,5 @@
+import type { IOutline } from "../publicApi";
 import { getIndexOfImmediatePreviousSibling } from "./getIndexOfImmediatePreviousSibling";
-import type { IOutline } from "./types";
 
 /**
  * @description It returns a predicate on whether the provided outline node has an immediate previous sibling.
